@@ -1,0 +1,34 @@
+- hosts: centos3
+  tasks:
+# step #1: disable SElinux
+    - name: Desable SELinux
+      selinux:
+        state: disabled 
+# step #2 inatall apache
+    - name: install the latest version of Apache
+      yum:
+        name: httpd
+        state: latest
+    - name: install unzip
+      yum:
+        name: unzip
+        state: latest      
+    - name: start apache 
+      systemd:
+        name: httpd 
+        enabled: yes
+        state: started
+    - name: Download foo.conf
+      get_url:
+        url: https://www.free-css.com/assets/files/free-css-templates/download/page294/namari.zip
+        dest: /tmp/
+    - name: Unarchive a file that is already on the remote machine
+      unarchive:
+        src: /tmp/namari.zip
+        dest: /var/www/html
+        remote_src: yes
+
+        
+        
+      
+            
